@@ -1,0 +1,48 @@
+<Playlist Version="2.0">
+  <Rule Name="Includes" Match="Any">
+    <Rule Match="All">
+      <Property Name="Solution" />
+      <Rule Match="Any">
+        <Rule Match="All">
+          <Property Name="Project" Value="IUUnitTest.AppServiceDAL" />
+          <Rule Match="Any">
+            <Rule Match="All">
+              <Property Name="Namespace" Value="IUUnitTest.AppServiceDAL" />
+              <Rule Match="Any">
+                <Rule Match="All">
+                  <Property Name="Class" Value="Tests" />
+                  <Rule Match="Any">
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="IUUnitTest.AppServiceDAL.Tests.ValidateSavePatient" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="ValidateSavePatient" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="IUUnitTest.AppServiceDAL.Tests.ValidateSaveScanDetails" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="ValidateSaveScanDetails" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="IUUnitTest.AppServiceDAL.Tests.ValidateSaveInstitutionDetails" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="ValidateSaveInstitutionDetails" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="IUUnitTest.AppServiceDAL.Tests.SaveMachineDetails" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="SaveMachineDetails" />
+                      </Rule>
+                    </Rule>
+                  </Rule>
+                </Rule>
+              </Rule>
+            </Rule>
+          </Rule>
+        </Rule>
+      </Rule>
+    </Rule>
+  </Rule>
+</Playlist>

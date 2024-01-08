@@ -1,0 +1,25 @@
+#img {
+    background-image: url("../../assets/images/HomePage.png");
+    background-size: 100%;
+    /* background-size: cover; */
+    height: 100%;
+ }
+
+.card {
+    background: var(--surface-card);
+    padding: 2rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+}
+
+.hovereffect:hover {
+    transform: scale(1.1)
+  }
+
+/* .shrinkhovereffect:hover {
+    transform: scale(0.95)
+  } */
+
+  :host ::ng-deep .p-sidebar {
+    width: 600px; /* Set your desired width */
+  }

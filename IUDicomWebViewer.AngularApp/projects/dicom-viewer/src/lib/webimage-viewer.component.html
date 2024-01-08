@@ -1,0 +1,169 @@
+<div style="display: flex; width:100%; height: 100%;">
+
+
+    <div class="thumbnailSelector" *ngIf="seriesList.length > 1" style="margin-right: 5px;">
+        <div class="thumbnails list-group" style="height: 100%;">
+            <a *ngFor="let series of seriesList; let i=index" [ngClass]="{'active': currentSeriesIndex === i}" class="list-group-item"
+                oncontextmenu="return false" unselectable="on" onselectstart="return false;" onmousedown="return false;"
+                (click)="showSeries(i)">
+                <div thumbnail [imageData]="series.imageList[0]" class="csthumbnail" oncontextmenu="return false"
+                    unselectable="on" onselectstart="return false;" onmousedown="return false;">
+                </div>
+                <div class="text-center small" style="color:white;">{{series.seriesDescription}}</div>
+                <div id="mrtopright" style="position: absolute;top:3px; right:3px">
+                    <div id="imageCount" style="color:red; font-size: 10pt">{{series.imageCount}}</div>
+                </div>
+            </a>
+            <div class="version">
+                <h6 style="color:white;"><small>1.20.12.17</small></h6>
+            </div>
+        </div>
+    </div>
+
+    <!--container where image will be loaded-->
+    <div style="overflow: hidden; width: 100%; height: 100%; background-color:black;">
+
+        <!-- Toolbar -->
+
+        <div style="width: 100%; height: calc(100% - 60px);position:relative;display:inline-block;color:white;"
+            oncontextmenu="return false" class='cornerstone-enabled-image' unselectable='on' onselectstart='return false;'
+            onmousedown='return false;'>
+            <div cornerstone style="width: 100%; height: 100%;top:0px;left:0px;position:absolute;outline:none;margin: 0 auto;"
+                id="dicomImage">
+            </div>
+            <div style="position: absolute;float: left;margin-top:10px">
+                <button  (click)="logOut()" type="submit" class="btn hovereffect" click style="border:groove;float:right;color:white"><strong>Logout</strong></button>
+                <button  (click)="homePage()" type="submit" class="btn hovereffect" click style="border:groove;float:right;margin-right: 10px;color:white"><strong>Home</strong></button>
+            </div>
+            <div id="mrtopright" style="position: absolute;top:3px; right:3px">
+                <div style="color:gold">
+                    Patient Name: {{viewPort.patientName}}
+                </div>
+
+                <div id="sliceText" style="color:gold">
+                    Image: {{(imageCount > 0)?viewPort.currentIndex+1:0}}/{{imageCount}}
+                </div>
+                <div style="color:gold">
+                    InstanceNumber: {{viewPort.instanceNumber}}
+                </div>
+                <div style="color:gold">
+                    WW/WC: {{viewPort.windowingValue}}
+                </div>
+
+            </div>
+
+        </div>
+        <div style="text-align: center;">
+            <div  class="btn-group">
+                <div id="responsive" class="btn-group" *ngIf="enableViewerTools">
+
+                    <!-- WW/WL -->
+                    <!-- <button type="button" (click)="enableWindowing()" class="btn btn-sm btn-default" data-container='body'
+                        data-toggle="tooltip" data-placement="bottom" title="Windowing"><span class="fa fa-sun"></span></button> -->
+                        <fa-icon (click)="enableWindowing()" style="scale:5px;color:rgb(229, 255, 0)" title="Brightness"  size="2x" [icon]="faSun"></fa-icon>
+
+                    <!-- Invert -->
+                    <!-- <button type="button" (click)="invertImage()" class="btn btn-sm btn-default" data-container='body'
+                        data-toggle="tooltip" data-placement="bottom" title="Invert"><span class="fa fa-adjust"></span></button> -->
+                        <fa-icon (click)="invertImage()" style="scale:5px;color:rgb(42, 73, 252)" title="Contrast"  size="2x" [icon]="faAdjust"></fa-icon>
+
+                    <!-- Stack scroll -->
+                    <!-- <button type="button" (click)="enableScroll()" class="btn btn-sm btn-default" data-container='body'
+                        data-toggle="tooltip" data-placement="bottom" title="Scroll"><span class="fa fa-bars"></span></button> -->
+                        <!-- <fa-icon (click)="enableScroll()" style="scale:5px;color:whitesmoke" title="Scroll"  size="2x" [icon]="faScroll"></fa-icon> -->
+
+                    <!-- Length measurement -->
+                    <!-- <button type="button" (click)="enableLength()" class="btn btn-sm btn-default" data-container='body'
+                        data-toggle="tooltip" data-placement="bottom" title="Length"><span class="fa fa-arrows-alt-v"></span></button> -->
+                        <fa-icon (click)="enableLength()" style="scale:5px;color:rgb(2, 255, 171)" title="Length"  size="2x" [icon]="faRuler"></fa-icon>
+                    <!-- Angle measurement -->
+                    <!-- <button type="button" (click)="enableAngle()" class="btn btn-sm btn-default" data-container='body'
+                        data-toggle="tooltip" data-placement="bottom" title="Angle"><span class="fa fa-angle-left"></span></button> -->
+                        <fa-icon (click)="enableAngle()" style="scale:5px;color:rgb(174, 0, 255)" title="Angle"  size="2x" [icon]="faAngleLeft"></fa-icon>
+
+                    <!-- Pixel probe -->
+                    <!-- <button type="button" (click)="enableProbe()" class="btn btn-sm btn-default" data-container='body'
+                        data-toggle="tooltip" data-placement="bottom" title="Pixel Probe"><span class="fa fa-dot-circle"></span></button> -->
+                        <fa-icon (click)="enableProbe()" style="scale:5px;color:whitesmoke" title="Probe"  size="2x" [icon]="faCircleDot"></fa-icon>
+
+                    <!-- Elliptical ROI -->
+                    <!-- <button type="button" (click)="enableElliptical()" class="btn btn-sm btn-default" data-container='body'
+                        data-toggle="tooltip" data-placement="bottom" title="Elliptical ROI"><span class="fa fa-circle"></span></button> -->
+                        <fa-icon (click)="enableElliptical()" style="scale:5px;color:whitesmoke" title="Elliptical"  size="2x" [icon]="faCircle"></fa-icon>
+
+                    <!-- Rectangle ROI -->
+                    <!-- <button type="button" (click)="enableRectangle()" class="btn btn-sm btn-default" data-container='body'
+                        data-toggle="tooltip" data-placement="bottom" title="Rectangle ROI"><span class="fa fa-square"></span></button> -->
+                        <fa-icon (click)="enableRectangle()" style="scale:5px;color:whitesmoke" title="Rectangle"  size="2x" [icon]="faSquare"></fa-icon>
+                    <!-- Reset Image -->
+                    <!-- <button type="button" (click)="resetImage()" class="btn btn-sm btn-default" data-container='body'
+                        data-toggle="tooltip" data-placement="bottom" title="Reset Image"><span class="fa fa-window-restore"></span></button> -->
+                        <fa-icon (click)="resetImage()" style="scale:5px;color:rgb(204, 202, 202)" title="Reset"  size="2x" [icon]="faUndo"></fa-icon>
+                </div>
+                <div id="responsive" class="btn-group">
+                    <!-- Zoom -->
+                    <!-- <button type="  button" (click)="enableZoom()" class="btn btn-sm btn-default" data-container='body'
+                      data-toggle="tooltip" data-placement="bottom" title="Zoom"><span class="fa fa-search"></span></button> -->
+                      <fa-icon (click)="enableZoom()" style="scale:5px;color:rgb(255, 195, 155)" title="Zoom"  size="2x" [icon]="faSearchPlus"></fa-icon>
+
+                    <!-- Pan -->
+                    <!-- <button type="button" (click)="enablePan()" class="btn btn-sm btn-default" data-container='body' data-toggle="tooltip"
+                      data-placement="bottom" title="Pan"><span class="fa fa-arrows-alt"></span></button> -->
+                      <fa-icon (click)="enablePan()" style="scale:5px;color:rgb(223, 253, 166)" title="Drag"  size="2x" [icon]="faArrowsAlt"></fa-icon>
+
+                    <!-- Play clip -->
+                    <!-- <button type="button" *ngIf="enablePlayTools" (click)="playClip()" style="border-left: 1px dotted white;" class="btn btn-sm btn-default"
+                        data-container='body' data-toggle="tooltip" data-placement="bottom" title="Play Clip"><span
+                            class="fa fa-play"></span></button> -->
+                      <fa-icon *ngIf="enablePlayTools"  (click)="playClip()" style="scale:5px;color:rgb(111, 255, 28)" title="Play Images"  size="2x" [icon]="faCirclePlay"></fa-icon>   
+                    <!-- Stop clip -->
+                    <!-- <button type="button" *ngIf="enablePlayTools" (click)="stopClip()" class="btn btn-sm btn-default" data-container='body'
+                        data-toggle="tooltip" data-placement="bottom" title="Stop Clip"><span class="fa fa-stop"></span></button> -->
+                       <fa-icon *ngIf="enablePlayTools"  (click)="stopClip()" style="scale:5px;color:rgb(255, 47, 47)" title="Stop Play"  size="2x" [icon]="faCircleStop"></fa-icon>   
+
+                    <!-- Layout -->
+                    <!--                 <button type="button" style="border-left: 1px dotted white;" [matMenuTriggerFor]="menu" class="btn btn-sm btn-default" data-container='body' data-toggle="dropdown" aria-expanded="false" data-placement="top" title="Layout"><span class="fa fa-th-large"></span></button>
+                  <mat-menu #menu="matMenu">
+                          <a mat-menu-item class="dropdown-item" >1x1</a>
+                          <a mat-menu-item class="dropdown-item" >2x1</a>
+                          <a mat-menu-item class="dropdown-item" >1x2</a>
+                          <a mat-menu-item class="dropdown-item" >2x2</a>
+
+                  </mat-menu> -->
+
+                    <!-- Download -->
+                    <a *ngIf="downloadImagesURL != ''" [href]="downloadImagesURL" download style="border-left: 1px dotted white;"
+                        class="btn btn-sm btn-default" data-container='body' data-toggle="tooltip" data-placement="bottom"
+                        title="Download Imagens">
+                        <span class="fa fa-download"></span>
+                    </a>
+
+                    <!-- Previous Images -->
+                    <!-- <button type="button" (click)="previousImage()" [ngStyle]="hidePreviousImage" style="border-left: 1px dotted white;"
+                        class="btn btn-sm btn-default" data-container='body' data-toggle="tooltip" data-placement="bottom"
+                        title="Imagem Anterior"><span class="fa fa-backward"></span></button> -->
+                        <fa-icon (click)="previousImage()" style="scale:5px;color:rgb(185, 243, 130)" title="Previous Image"  size="2x" [icon]="faCircleArrowLeft"></fa-icon>   
+
+                    <!-- Próxima Imagem -->
+                    <!-- <button type="button" (click)="nextImage()" [ngStyle]="hideNextImage" class="btn btn-sm btn-default"
+                        data-container='body' data-toggle="tooltip" data-placement="bottom" title="Próxima Imagem"><span
+                            class="fa fa-forward"></span></button> -->
+                        <fa-icon (click)="nextImage()" style="scale:5px;color:rgb(185, 243, 130)" title="Next Image"  size="2x" [icon]="faCircleArrowRight"></fa-icon>   
+
+                    <!-- Load Next Batch -->
+                    <a type="button" *ngIf="moreImagestoLoad != ''" (click)="loadMoreImages()" style="border-left: 1px dotted white;color: white;white-space: nowrap;"
+                        class="btn btn-sm btn-default" data-container='body' data-toggle="tooltip" data-placement="bottom"
+                        title="Carrega mais imagens..."><i class="fas fa-cloud-download-alt"></i> clique aqui para trazer as próximas {{moreImagestoLoad}} imagens
+                    </a>
+
+                    <!-- Progress Spinner -->
+                    <div style="padding-left: 15px; padding-top: 15px;" [ngStyle]="showProgress">
+                        <mat-spinner style="display: inline-block;" diameter="30" strokeWidth="5" color="warn"></mat-spinner>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

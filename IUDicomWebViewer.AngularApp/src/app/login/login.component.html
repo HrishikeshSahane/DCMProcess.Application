@@ -1,0 +1,67 @@
+<div id="img" class="container-fluid;">
+    <div class="container-fluid;" >
+      <br />
+      <br />
+  
+      <form #loginForm="ngForm" (ngSubmit)="submitLoginForm(loginForm)">
+        <div class="row">
+          <div class="col-md-4">
+          </div>
+          <div class="col-md-4">
+            <h2 class="hovereffect" style="text-align:center;font-size:40px;color:white">Login</h2>
+            <br/>
+            <h6 style="text-align:center;color:rgb(243, 52, 52);font-size:small">All fields are mandatory</h6>
+            <div class="form-group">
+              <div class="col" style="text-align:left">
+  
+              </div>
+              <div class="col; input-group" >
+                <input type="email" name="email" placeholder="Email" #emailRef="ngModel" class="form-control" ngModel required pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"style="border:groove">
+              </div>
+              <div *ngIf="emailRef.errors && (emailRef.dirty || emailRef.touched)" style="text-align:left; padding-top:5px; color:red;">
+                <div [hidden]="!emailRef.errors.required">
+                  <p>&nbsp;Email id is mandatory</p>
+                </div>
+                <div [hidden]="!emailRef.errors.pattern">
+                  <p>&nbsp;Email id is not entered in proper format</p>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col" style="text-align:left;margin-bottom: 20px;">
+  
+              </div>
+              <div class="col; input-group">
+                <input type="password" name="password" placeholder="Password" #passwordRef="ngModel" class="form-control" ngModel required style="border:groove">
+              </div>
+              <div *ngIf="passwordRef.errors && (passwordRef.dirty || passwordRef.touched)" style="text-align:left; padding-top:5px; color:red;">
+                <div [hidden]="!passwordRef.errors.required">
+                  <p>&nbsp;Password is mandatory</p>
+                </div>
+              </div>
+            </div>
+            <div href="showmessage()" class="hovereffect" style="color:white;margin-left:200px;margin-bottom:10px;text-decoration:underline" (click)="showmessage()">Forgot Password?</div>
+            <div class="form-group" style="text-align:center">
+              <div class="col" style="margin-top: 10px;">
+                <button type="submit" [disabled]="!loginForm.form.valid" class="btn hovereffect" style="border:groove"><strong>Login</strong></button>&nbsp;&nbsp;
+                <button type="submit" class="btn hovereffect" routerLink="/login" style="border:groove"><strong>Cancel</strong></button>
+                <br />
+                <br />
+                <br />
+                <br />
+  
+  
+              </div>
+  
+            </div>
+          </div>
+          <div class="col-md-4">
+          </div>
+        </div>
+        <div *ngIf="showDiv" style="color:red;text-align:center;">
+          <br />
+          {{msg}}
+        </div>
+      </form>
+    </div>
+  </div>

@@ -1,0 +1,93 @@
+<div class="card" id="img">
+    <nav>
+        <button  (click)="logOut()" type="submit" class="btn hovereffect" click style="border:groove;float:right;color:white"><strong>Logout</strong></button>
+        <button  (click)="homePage()" type="submit" class="btn hovereffect" click style="border:groove;float:right;margin-right: 10px;color:white"><strong>Home</strong></button>
+     </nav>    
+    <h2 style="text-align:center;font-size:40px;color:white;padding-top: 5rem;padding-bottom: 5rem;">Patient Dashboard</h2>
+    <p-toast></p-toast>
+    <p-table [value]="patientList" [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>PatientId</th>
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>Gender</th>
+                <th>Date of Birth</th>
+                <th></th>
+                <th style="width: 5rem"></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-x>
+            <tr class="shrinkhovereffect">
+                <td style="font-weight: 500;color:coral">{{ x.PatientId }}</td>
+                <td>{{ x.FirstName }}</td>
+                <td>{{ x.LastName }}</td>
+                <td>{{ x.Gender }}</td>
+                <td>{{x.DateOfBirth}}</td>
+                <td>
+                    <div class="hovereffect" >
+                        <fa-icon  style="scale: 1.5;color: blueviolet;" (click)="selectPatientforScanDetails(x)"  title="Scan Details"   size="lg" [icon]="faInfoCircle"></fa-icon>
+                    </div>
+                    
+                </td>
+                <td>
+                    <div class="hovereffect">
+                        <fa-icon style="scale:5px;color:rgb(2, 153, 253);" (click)="selectPatient(x)" title="View Images"  size="lg" [icon]="faImage"></fa-icon>
+                    </div>
+                    
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+</div>
+
+<p-sidebar [(visible)]="sidebarVisible" position="right">
+    <h5 style="text-align: center;color: coral;">{{patientId}}</h5>
+    <h6 style="text-align: center;color:rgb(3, 146, 212);">{{fullName}}</h6>
+    <hr>
+    <div style="background-color: cornsilk;">
+        <h5 style="text-align: center;font-weight: 500;">Scan Details</h5>
+        <br/>
+        <div class="row">
+            <div class="col-md-3" style="color:brown;">Image Modality:</div>
+            <div class="col-md-9" style="color:rgb(204, 0, 255)">{{scanDetail.ImageModality}}</div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-3" style="color:brown;">Image Type:</div>
+            <div class="col-md-9" style="color:rgb(247, 109, 90)">{{scanDetail.ImageType}}</div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-3" style="color:brown;">StudyId:</div>
+            <div class="col-md-9" style="color:rgb(3, 194, 28)">{{scanDetail.SeriesId}}</div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-3" style="color:brown;">Scanned Date:</div>
+            <div class="col-md-9" style="color:rgb(121, 117, 112)">{{scanDetail.ScannedDate}}</div>
+        </div>
+    </div>
+
+    <br/>
+    <div style="background-color: aliceblue;">
+        <h5 style="text-align: center;font-weight: 500;">Institution Details</h5>
+        <br/>
+        <div class="row">
+            <div class="col-md-3" style="color:brown;">Hospital Name:</div>
+            <div class="col-md-9" style="color:rgb(0, 48, 110)">{{institutionDetail.InstitutionName}}</div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-3" style="color:brown;">Department Name:</div>
+            <div class="col-md-9" style="color:rgb(0, 48, 110)">{{institutionDetail.DepartmentName}}</div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-3" style="color:brown;">Address:</div>
+            <div class="col-md-9" style="color:rgb(0, 48, 110)">{{institutionDetail.InstitutionAddress}}</div>
+        </div>
+    </div>
+
+</p-sidebar>

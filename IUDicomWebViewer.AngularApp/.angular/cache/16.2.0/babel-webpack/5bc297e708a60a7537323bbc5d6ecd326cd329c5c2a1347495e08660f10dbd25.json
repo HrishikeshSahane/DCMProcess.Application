@@ -1,0 +1,1 @@
+{"ast":null,"code":"export class ScanDetail {\n  constructor() {\n    this.ScannedDate = new Date();\n    this.ModifiedDate = new Date();\n    this.MachineDetail = [];\n    this.Patient = null;\n  }\n}","map":null,"metadata":{},"sourceType":"module","externalDependencies":[]}

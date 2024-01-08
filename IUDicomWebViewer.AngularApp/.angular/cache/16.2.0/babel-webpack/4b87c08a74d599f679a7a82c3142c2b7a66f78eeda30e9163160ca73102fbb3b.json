@@ -1,0 +1,1 @@
+{"ast":null,"code":"// Copyright (c) Microsoft Corporation.\n// Licensed under the MIT license.\n/**\n * Maximum number of retries for the throttling retry policy\n */\nexport const DEFAULT_CLIENT_MAX_RETRY_COUNT = 3;\n//# sourceMappingURL=throttlingRetryStrategy.js.map","map":null,"metadata":{},"sourceType":"module","externalDependencies":[]}

@@ -1,0 +1,6 @@
+#img {
+    background-image: url("../../assets/images/HomePage.png");
+    background-size: 200%;
+    /* background-size: cover; */
+    height: 150%;
+ }

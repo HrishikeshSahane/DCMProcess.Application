@@ -1,0 +1,14 @@
+{
+  "profiles": {
+    "IUPackageFunctionApp": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7054"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "httpPort": 34730,
+      "useSSL": false
+    }
+  }
+}

@@ -1,0 +1,1 @@
+{"ast":null,"code":"// Copyright (c) Microsoft Corporation.\n// Licensed under the MIT license.\nexport { XhrHttpClient as DefaultHttpClient } from \"./xhrHttpClient\";\n//# sourceMappingURL=defaultHttpClient.browser.js.map","map":null,"metadata":{},"sourceType":"module","externalDependencies":[]}

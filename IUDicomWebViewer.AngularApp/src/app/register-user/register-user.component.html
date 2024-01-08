@@ -1,0 +1,318 @@
+<div id="img">
+    <br/>
+    <nav>
+        <button  (click)="logOut()" type="submit" class="btn hovereffect" click style="border:groove;float:right;color:white"><strong>Logout</strong></button>
+        <button  (click)="homePage()" type="submit" class="btn hovereffect" click style="border:groove;float:right;margin-right: 10px;color:white"><strong>Home</strong></button>
+    </nav> 
+    <br/>
+    <br/>
+    <br/>
+    <div class="container">
+        <form #registerForm="ngForm" (ngSubmit)="RegistrationForm(registerForm)">
+            <div style="color:white">
+
+                <h2 style="text-align: center;">Register</h2>
+                <h6 style="text-align:center;color:gainsboro;font-size:small;color:red">All fields are mandatory</h6>
+                <br />
+      
+
+
+                <div class="row" style="flex-wrap: nowrap;margin-bottom: 10px;">
+                    <div class="col-md-4" style="text-align:right">
+                        <label>First Name</label>
+                    </div>
+                    <div class="col-md-8;" style="text-align:left;">
+                        <input type="text" name="firstname" #firstnameRef="ngModel" placeholder="Enter First Name" style="border:groove;width:50%" class="form-control" ngModel required pattern="(^(\w\w+)\s(\w+)$)|(^([A-Za-z])+[A-Za-z])">
+                    </div>
+                </div>
+                <div *ngIf="firstnameRef.errors && (firstnameRef.dirty || firstnameRef.touched)" style="text-align:center; padding-top:5px; color:red;">
+                    <div [hidden]="!firstnameRef.errors.required">
+                    <p>&nbsp;First Name is mandatory</p>
+                    </div>
+                    <div [hidden]="!firstnameRef.errors.pattern">
+                    <p>&nbsp;First Name is not entered in proper format</p>
+                    </div>
+                </div>
+
+
+                <div class="row" style="flex-wrap: nowrap;margin-bottom: 10px;">
+                    <div class="col-md-4" style="text-align:right">
+                        <label>Last Name</label>
+                    </div>
+                    <div class="col-md-8;" style="text-align:left;">
+                        <input type="text" name="lastname" #lastnameRef="ngModel" placeholder="Enter Last Name" style="border:groove;width:50%" class="form-control" ngModel required pattern="(^(\w\w+)\s(\w+)$)|(^([A-Za-z])+[A-Za-z])">
+                    </div>
+                </div>
+                <div *ngIf="lastnameRef.errors && (lastnameRef.dirty || lastnameRef.touched)" style="text-align:center; padding-top:5px; color:red;">
+                    <div [hidden]="!lastnameRef.errors.required">
+                    <p>&nbsp;Last Name is mandatory</p>
+                    </div>
+                    <div [hidden]="!lastnameRef.errors.pattern">
+                    <p>&nbsp;Last Name is not entered in proper format</p>
+                    </div>
+                </div>
+
+
+                <div class="row" style="flex-wrap: nowrap;margin-bottom: 10px;">
+                    <div class="col-md-4" style="text-align:right">
+                        <label>Email Id</label>
+                    </div>
+                    <div class="col-md-8" style="text-align:left">
+                        <input type="email" name="email" #emailRef="ngModel" placeholder="Enter EmailId" class="form-control" style="border:groove;width: 76%;" ngModel required pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$">
+                    </div>
+                </div>
+                <div *ngIf="emailRef.errors && (emailRef.dirty || emailRef.touched)" style="text-align:center; padding-top:5px; color:red;">
+                    <div [hidden]="!emailRef.errors.required">
+                        <p>&nbsp;Email id is mandatory</p>
+                    </div>
+                    <div [hidden]="!emailRef.errors.pattern">
+                        <p>&nbsp;Email id is not entered in proper format</p>
+                    </div>
+                </div>
+
+                <div class="row" style="flex-wrap: nowrap;margin-bottom: 10px;">
+                    <div class="col-md-4" style="text-align:right">
+                        <label>Role Name</label>
+                    </div>
+                    <div class="col-md-8;" style="text-align:left;">
+                        <input type="text" name="roleName" #roleNameRef="ngModel" placeholder="Role Name" style="border:groove;width:50%" class="form-control" ngModel required pattern="(^(\w\w+)\s(\w+)$)|(^([A-Za-z])+[A-Za-z])">
+                    </div>
+                </div>
+                <div *ngIf="roleNameRef.errors && (roleNameRef.dirty || roleNameRef.touched)" style="text-align:center; padding-top:5px; color:red;">
+                    <div [hidden]="!roleNameRef.errors.required">
+                    <p>&nbsp;Role Name is mandatory</p>
+                    </div>
+                    <div [hidden]="!roleNameRef.errors.pattern">
+                    <p>&nbsp;Role Name is not entered in proper format</p>
+                    </div>
+                </div>
+
+
+                <div class="row" style="flex-wrap: nowrap;margin-bottom: 10px;">
+                    <div class="col-md-4" style="text-align:right">
+                        <label>Gender</label>
+                    </div>
+                    <div>
+                        <select id="gender" name="gender" #gender required ngModel>
+                            <option value="M">Male</option>
+                            <option value="F">Female</option>
+                          </select>
+                    </div>
+                </div>
+
+
+                <div class="row" style="flex-wrap: nowrap;margin-bottom: 10px;">
+                    <div class="col-md-4" style="text-align:right">
+                        <label>Date of Birth</label>
+                    </div>
+                    <div>
+                        <input type="date" id="dateOfBirth" name="dateOfBirth" #dateofBirth required ngModel>
+                    </div>
+                </div>
+
+                <!-- <div>
+                    <div class="col" style="text-align:left">
+                    <label>Email Id</label>
+                    </div>
+                    <div class="col;">
+                    <input type="email" name="email" #emailRef="ngModel" placeholder="Enter EmailId" class="form-control" style="border:groove;" ngModel required pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$">
+                    </div>
+                    <div *ngIf="emailRef.errors && (emailRef.dirty || emailRef.touched)" style="text-align:center; padding-top:5px; color:red;">
+                        <div [hidden]="!emailRef.errors.required">
+                            <p>&nbsp;Email id is mandatory</p>
+                        </div>
+                        <div [hidden]="!emailRef.errors.pattern">
+                            <p>&nbsp;Email id is not entered in proper format</p>
+                        </div>
+                    </div>
+                </div> -->
+
+                <div class="row" style="flex-wrap: nowrap;margin-bottom: 10px;">
+                    <div class="col-md-4" style="text-align: right;">
+                        <label>Password</label>
+                    </div>
+                    <div class="col-md-8" style="text-align:left">
+                        <input type="password" name="password" #passwordRef="ngModel" placeholder="Enter Password" style="border:groove;width: 76%;" class="form-control" [(ngModel)]="password" ngModel required pattern=".{8,}" maxlength="16">
+                    </div>
+                </div>
+                <div *ngIf="passwordRef.errors && (passwordRef.dirty || passwordRef.touched)" style="text-align:center; padding-top:5px; color:red;">
+                    <div [hidden]="!passwordRef.errors.required">
+                        <p>&nbsp;Password is mandatory</p>
+                    </div>
+                    <div [hidden]="!passwordRef.errors.pattern">
+                        <p>&nbsp;Password is not entered in proper format</p>
+                    </div>
+                </div>
+
+                <div class="row" style="flex-wrap: nowrap;margin-bottom: 10px;">
+                    <div class="col-md-4" style="text-align: right;">
+                        <label>Re-enter Password</label>
+                    </div>
+                    <div class="col-md-8" style="text-align:left">
+                        <input type="password" name="confirm_password" #confirm_passwordRef="ngModel" placeholder="Re-Enter Password" style="border:groove;width: 76%;" class="form-control" [(ngModel)]="password2" ngModel required pattern=".{8,}" maxlength="16">
+                    </div>
+                </div>
+                <div *ngIf="password2!=password" style="text-align:center; padding-top:5px; color:red;">
+                    Please re-Enter Correct password!
+                </div>
+
+                <div class="row" style="flex-wrap: nowrap;margin-bottom: 10px;">
+                    <div class="col-md-4" style="text-align:right">
+                        <label>Contact No.</label>
+                    </div>
+                    <div class="col-md-8;" style="text-align:left;">
+                        <input type="text" name="contactno" #contactRef="ngModel" placeholder="Enter Contact No." style="border:groove;width:50%" class="form-control" ngModel required pattern="[0-9]{10}">
+                    </div>
+                </div>
+                <div *ngIf="contactRef.errors && (contactRef.dirty || contactRef.touched)" style="text-align:center; padding-top:5px; color:red;">
+                    <div [hidden]="!contactRef.errors.required">
+                        <p>&nbsp;Contact no. is required</p>
+                    </div>
+                    <div [hidden]="!contactRef.errors.pattern">
+                        <p>&nbsp;Please enter valid contact number!</p>
+                    </div>
+                </div>
+
+                <div class="row" style="flex-wrap: nowrap;margin-bottom: 10px;">
+                    <div class="col-md-4" style="text-align:right">
+                        <label>Speciality</label>
+                    </div>
+                    <div class="col-md-8;" style="text-align:left;">
+                        <input type="text" name="speciality" #specialityRef="ngModel" placeholder="Enter Speciality" style="border:groove;width:50%" class="form-control" ngModel>
+                    </div>
+                </div>
+                <!-- <div *ngIf="contactRef.errors && (contactRef.dirty || contactRef.touched)" style="text-align:center; padding-top:5px; color:red;">
+                    <div [hidden]="!contactRef.errors.required">
+                        <p>&nbsp;Contact no. is required</p>
+                    </div>
+                    <div [hidden]="!contactRef.errors.pattern">
+                        <p>&nbsp;Please enter valid contact number!</p>
+                    </div>
+                </div> -->
+        
+                <!-- <div class="form-group">
+                    <div class="col" style="text-align:left">
+                    <label>Contact No.</label>
+                    </div>
+                    <div class="col; input-group">
+                    <input type="text" name="contactno" #contactRef="ngModel" placeholder="Enter Contact no." class="form-control" ngModel required pattern="[0-9]{10}">
+                    </div>
+                    <div *ngIf="contactRef.errors && (contactRef.dirty || contactRef.touched)" style="text-align:center; padding-top:5px; color:red;">
+                        <div [hidden]="!contactRef.errors.required">
+                            <p>&nbsp;Contact no. is required</p>
+                        </div>
+                        <div [hidden]="!contactRef.errors.pattern">
+                            <p>&nbsp;Please enter valid contact number!</p>
+                        </div>
+                    </div>
+                </div> -->
+      
+      
+                <div class="row" style="flex-wrap: nowrap;margin-bottom: 10px;">
+                    <div class="col-md-4" style="text-align:right">
+                        <label>Current Workplace Hospital</label>
+                    </div>
+                    <div class="col-md-8;" style="text-align:left;">
+                        <input type="text" name="currentworkplace" #currentworkplaceRef="ngModel" placeholder="Enter WorkPlace Hospital" style="border:groove;width:50%" class="form-control" ngModel required pattern="(^(\w\w+)\s(\w+)$)|(^([A-Za-z])+[A-Za-z])">
+                    </div>
+                </div>
+                <div *ngIf="currentworkplaceRef.errors && (currentworkplaceRef.dirty || currentworkplaceRef.touched)" style="text-align:center; padding-top:5px; color:red;">
+                    <div [hidden]="!currentworkplaceRef.errors.required">
+                    <p>&nbsp;Current Workplace  details is mandatory</p>
+                    </div>
+                    <div [hidden]="!currentworkplaceRef.errors.pattern">
+                    <p>&nbsp;Current Workplace  details is not entered in proper format</p>
+                    </div>
+                </div>
+
+                <!-- <div class="form-group">
+                    <div class="col" style="text-align:left">
+                    <label>Building Number</label>
+                    </div>
+                    <div class="col; input-group">
+                    <input type="text" name="buildingno" #buildingnoRef="ngModel" class="form-control" style="border:groove" ngModel required pattern="[A-Za-z0-9]+">
+                    </div>
+                    <div *ngIf="buildingnoRef.errors && (buildingnoRef.dirty || buildingnoRef.touched)" style="text-align:center; padding-top:5px; color:red;">
+                        <div [hidden]="!buildingnoRef.errors.required">
+                            <p>&nbsp;Building number is required</p>
+                        </div>
+                        <div [hidden]="!buildingnoRef.errors.pattern">
+                            <p>&nbsp;Building no. is not entered in proper format</p>
+                        </div>
+                    </div>
+                </div> -->
+      
+      
+            <!-- <a></a>   
+
+            <div class="form-group">
+                <div class="col" style="text-align:left">
+                    <label>Street Number</label>
+                </div>
+                <div class="col; input-group">
+                    <input type="text" name="streetno" #streetnoRef="ngModel" class="form-control" style="border:groove" ngModel required pattern="[A-Za-z0-9]+">
+                </div>
+                <div *ngIf="streetnoRef.errors && (streetnoRef.dirty || streetnoRef.touched)" style="text-align:center; padding-top:5px; color:red;">
+                    <div [hidden]="!streetnoRef.errors.required">
+                    <p>&nbsp;Street number is required</p>
+                    </div>
+                    <div [hidden]="!buildingnoRef.errors.pattern">
+                    <p>&nbsp;Street no. is not entered in proper format</p>
+                    </div>
+                </div>
+            </div> -->
+
+            <!-- <div class="form-group">
+            <div class="col" style="text-align:left">
+                <label>Locality</label>
+            </div>
+            <div class="col; input-group">
+                <input type="text" name="locality" #localityRef="ngModel" class="form-control" style="border:groove" ngModel required pattern="(^(\w\w+)\s(\w+)$)|(^([A-Za-z])+[A-Za-z])">
+            </div>
+            <div *ngIf="localityRef.errors && (localityRef.dirty || localityRef.touched)" style="text-align:center; padding-top:5px; color:red;">
+                <div [hidden]="!localityRef.errors.required">
+                <p>&nbsp;Locality is required</p>
+                </div>
+                <div [hidden]="!localityRef.errors.pattern">
+                <p>&nbsp;Please enter valid form</p>
+                </div>
+            </div>
+            </div> -->
+
+            <!-- <div class="form-group">
+            <div class="col" style="text-align:left">
+                <label>Pin code</label>
+            </div>
+            <div class="col; input-group">
+                <input type="text" name="pincode" #pincodeRef="ngModel" class="form-control" style="border:groove" ngModel required pattern="^[1-9][0-9]{5}$">
+            </div>
+            <div *ngIf="pincodeRef.errors && (pincodeRef.dirty || pincodeRef.touched)" style="text-align:center; padding-top:5px; color:red;">
+                <div [hidden]="!pincodeRef.errors.required">
+                <p>&nbsp;Pin Code is required</p>
+                </div>
+                <div [hidden]="!pincodeRef.errors.pattern">
+                <p>&nbspPlease enter valid Pin Code</p>
+                </div>
+            </div>
+            </div> -->
+            <br />
+    
+
+      
+            <div class="form-group" style="text-align:center">
+                <button type="submit" style="border:groove" [disabled]="!registerForm.form.valid" class="btn hovereffect">Register</button>&nbsp;
+                <button type="submit" class="btn hovereffect" routerLink="/admin" style="border:groove">Cancel</button>
+            </div>
+
+            </div>
+            <div *ngIf="issuccess;else elseBlock" style="text-align:center;color:lightgreen;">
+                Success
+            </div>
+            <ng-template #elseBlock>
+                <div style="text-align:center;color:red;">
+                Error
+                </div>
+            </ng-template>
+        </form>
+    </div>
+</div>

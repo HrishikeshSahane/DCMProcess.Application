@@ -1,0 +1,1 @@
+{"ast":null,"code":"export class Patient {\n  constructor() {\n    this.Id = 0;\n    this.PatientId = '';\n    this.FirstName = '';\n    this.LastName = '';\n    this.Gender = '';\n    this.DateOfBirth = new Date();\n    this.PatientCreatedDate = new Date();\n    this.ScanDetails = [];\n  }\n}","map":null,"metadata":{},"sourceType":"module","externalDependencies":[]}
