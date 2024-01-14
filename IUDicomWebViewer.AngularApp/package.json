@@ -34,6 +34,7 @@
     "cornerstone-math": "^0.1.10",
     "cornerstone-tools": "^5.1.2",
     "dicom-parser": "^1.8.21",
+    "firebase": "^10.7.1",
     "hammerjs": "^2.0.8",
     "jszip": "^3.10.1",
     "ng-dicomviewer": "^0.1.38",

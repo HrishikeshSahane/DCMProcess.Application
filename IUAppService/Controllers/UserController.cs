@@ -30,7 +30,7 @@ namespace DCMProcess.AppService
             }
             catch (Exception ex)
             {
-                role = "Invalid credentials";
+                role = "Some error occured: "+ ex.Message;
             }
             return Json(role);
         }

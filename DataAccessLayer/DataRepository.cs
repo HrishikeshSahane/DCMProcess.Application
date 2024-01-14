@@ -306,7 +306,7 @@ namespace DCMProcess.DataAccessLayer
             }
             catch (Exception ex)
             {
-                roleName = "Invalid credentials";
+                roleName = "Some error Occured: "+ ex.Message;
             }
             return roleName;
         }
