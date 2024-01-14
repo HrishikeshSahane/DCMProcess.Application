@@ -24,7 +24,7 @@ namespace DCMProcess.DataAccessLayer
             {
                 MemoryStream memoryStream = new MemoryStream();
                 BlobRequestOptions optionWithRetryPolicy = new BlobRequestOptions();
-                var storageConnectionString = "DefaultEndpointsProtocol=https;AccountName=iupackagecontainer;AccountKey=Z4UcFW6DFpWxa0dMX27N5CC+ZlgKCeIrdMcrFgYT5aO9k18f8XxhlaxZIXpA04PUcuR7iI8Av0YC+AStIsnxzw==;EndpointSuffix=core.windows.net";
+                var storageConnectionString = "DefaultEndpointsProtocol=https;AccountName=dcmprocesscontainer;AccountKey=ns9OQoQ1LooyBXHD6OYsWKLyjZL53HUoyhz5tw5X6xK5CIYq5Qu+wqD9OiOH15ddX5K77lxiuhgh+ASt64oB5Q==;EndpointSuffix=core.windows.net";
                 CloudStorageAccount storageAccount = CloudStorageAccount.Parse(storageConnectionString);
                 CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
                 CloudBlobContainer container = blobClient.GetContainerReference("dicomblob");

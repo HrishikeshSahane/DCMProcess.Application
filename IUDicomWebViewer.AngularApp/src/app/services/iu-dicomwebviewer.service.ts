@@ -77,7 +77,7 @@ export class IuDicomwebviewerService {
   // }
 
   setStudyId(data:any){
-    console.log(data);
+    console.log('Setting StudyId ' + data.key);
     this.dataSubject.next(data);
   }
 }

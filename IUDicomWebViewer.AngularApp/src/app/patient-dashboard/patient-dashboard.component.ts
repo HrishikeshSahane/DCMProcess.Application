@@ -22,7 +22,7 @@ export class PatientDashboardComponent implements OnInit{
   scanDetail=new ScanDetail();
   institutionDetail=new InstitutionDetail();
   patientId:string='';
-
+  selectedStudyId:string=''
   fullName:string='';
   sidebarVisible: boolean = false;
   patientList!:Patient[];
@@ -61,10 +61,33 @@ export class PatientDashboardComponent implements OnInit{
   }
 
   selectPatient(item: Patient) {
-    const data = { key: '2.57.299.2709.41320.615801.4965911.64446389'};
-    this._IuDicomwebviewerService.setStudyId(data);
-    this.messageService.add({ severity: 'info', summary: 'Patient selected', detail: item.FirstName });
-    this.router.navigate(['/patientdashboard/viewimages']);
+
+    this._IuDicomwebviewerService.getToken().subscribe(
+      token=>{
+        this._IuDicomwebviewerService.getScanDetailsbyPatientId(item.PatientId,token).subscribe(
+          response=>{
+            
+            this.scanDetail.Id=response[0]['id']
+            this.scanDetail.ImageModality=response[0]['imageModality']
+            this.scanDetail.ImageType=response[0]['imageType']
+            this.scanDetail.Patient=response[0]['patient']
+            this.scanDetail.ScannedDate=response[0]['scannedDate']
+            this.scanDetail.SeriesId=response[0]['seriesId']
+            this.selectedStudyId=this.scanDetail.SeriesId.toString();
+            this.patientId=this.scanDetail.Patient['patientId']
+            this.fullName=this.scanDetail.Patient['firstName'] + " " + this.scanDetail.Patient['lastName']
+
+            console.log(this.selectedStudyId)
+            const data = { key: this.selectedStudyId};
+            this._IuDicomwebviewerService.setStudyId(data);
+            this.messageService.add({ severity: 'info', summary: 'Patient selected', detail: item.FirstName });
+            this.router.navigate(['/patientdashboard/viewimages']);
+          }
+          
+        )
+      });
+
+    
 
   }
 
@@ -111,6 +134,29 @@ export class PatientDashboardComponent implements OnInit{
 
     this.sidebarVisible=true;
   }
+
+  getStudyId(PatientId:string){
+    console.log('In get study');
+    this._IuDicomwebviewerService.getToken().subscribe(
+      token=>{
+        this._IuDicomwebviewerService.getScanDetailsbyPatientId(PatientId,token).subscribe(
+          response=>{
+            
+            this.scanDetail.Id=response[0]['id']
+            this.scanDetail.ImageModality=response[0]['imageModality']
+            this.scanDetail.ImageType=response[0]['imageType']
+            this.scanDetail.Patient=response[0]['patient']
+            this.scanDetail.ScannedDate=response[0]['scannedDate']
+            this.scanDetail.SeriesId=response[0]['seriesId']
+            this.selectedStudyId=this.scanDetail.SeriesId.toString();
+            this.patientId=this.scanDetail.Patient['patientId']
+            this.fullName=this.scanDetail.Patient['firstName'] + " " + this.scanDetail.Patient['lastName']
+          }
+        )
+      });
+  }
+
+
 
   logOut() {
     sessionStorage.removeItem('userName');

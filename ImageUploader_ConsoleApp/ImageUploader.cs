@@ -15,6 +15,9 @@ using Microsoft.WindowsAzure.Storage.Queue;
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
 using Newtonsoft.Json;
+using System.Net.Http;
+using Azure.Storage.Blobs;
+
 namespace DCMProcess.ImageUploaderApp
 {
     public  class ImageUploader
@@ -26,11 +29,17 @@ namespace DCMProcess.ImageUploaderApp
         public static string containerName= ConfigurationManager.AppSettings["ContainerName"];
         public static string accountName= ConfigurationManager.AppSettings["StorageAccountName"];
         public static int filesCount= 0;
+        public static string storageConnectionString;
+        public static string storageConnectionKey;
 
-        public static void ReadFiles()
+        public static void ReadFiles(string keyvalue1,string keyvalue2)
         {
             try
             {
+                storageConnectionString = keyvalue1;
+                storageConnectionKey = keyvalue2;
+                Console.WriteLine($"storageConnectionString: {storageConnectionString}");
+                Console.WriteLine($"storageConnectionKey: {storageConnectionKey}");
                 basePath = ConfigurationManager.AppSettings["DICOMFilesPath"]; ;
                 seriesIdArr = Directory.GetDirectories(basePath).Select(Path.GetFileName).ToArray();
                 foreach(string s in seriesIdArr)
@@ -128,7 +137,7 @@ namespace DCMProcess.ImageUploaderApp
         public static string GetBlobSASToken()
         {
             string BlobContainerName = containerName;
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(ConfigurationManager.AppSettings["StorageConnectionString"]);
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(storageConnectionString);
             
             CloudBlobClient blobClient=storageAccount.CreateCloudBlobClient();
             
@@ -145,7 +154,7 @@ namespace DCMProcess.ImageUploaderApp
             };
             blobSasBuilder.SetPermissions(Azure.Storage.Sas.BlobSasPermissions.Read | Azure.Storage.Sas.BlobSasPermissions.Write| Azure.Storage.Sas.BlobSasPermissions.List);//User will only be able to read the blob and it's properties
             
-            string sasToken = blobSasBuilder.ToSasQueryParameters(new StorageSharedKeyCredential(accountName, ConfigurationManager.AppSettings["StorageConnectionKey"])).ToString()??String.Empty;
+            string sasToken = blobSasBuilder.ToSasQueryParameters(new StorageSharedKeyCredential(accountName, storageConnectionKey)).ToString()??String.Empty;
             string sasUrl = (container.Uri+ "?" + sasToken)??String.Empty;
             Console.WriteLine($"Token: {sasUrl}");
             return sasUrl;
@@ -154,7 +163,7 @@ namespace DCMProcess.ImageUploaderApp
 
         public static string GetQueueSASToken()
         {
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(ConfigurationManager.AppSettings["StorageConnectionString"]);
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(storageConnectionString);
 
             CloudQueueClient queueClient = storageAccount.CreateCloudQueueClient();
             
@@ -182,7 +191,7 @@ namespace DCMProcess.ImageUploaderApp
 
         }
 
-        public static void TransferZip(string blobUri,string seriesId)
+        public async static Task TransferZip(string blobUri,string seriesId)
         {
             try
             {
@@ -197,12 +206,25 @@ namespace DCMProcess.ImageUploaderApp
                 ServicePointManager.DefaultConnectionLimit = parallelTasks;
                 UploadOptions options = new UploadOptions();
                 SingleTransferContext context = new SingleTransferContext();
-                context.ShouldOverwriteCallbackAsync = TransferContext.ForceOverwrite;               
+                context.ShouldOverwriteCallbackAsync = TransferContext.ForceOverwrite;
                 TransferManager.UploadAsync(localPathWithFileName, blob, options, context).Wait();
+
+
+
+
+                //BlobServiceClient blobServiceClient = new BlobServiceClient(storageConnectionString);
+                //BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient(containerName);
+                //BlobClient blobClient = containerClient.GetBlobClient(blobName);
+                //using (FileStream fs = File.OpenRead(localPathWithFileName))
+                //{
+                //    await blobClient.UploadAsync(fs, true);
+                //    fs.Close();
+                //}
+
             }
             catch(Exception ex) 
             {
-                Console.WriteLine("SOme error occured");
+                Console.WriteLine("Some error occured");
             }
         }
 
@@ -224,6 +246,32 @@ namespace DCMProcess.ImageUploaderApp
                 Console.WriteLine("Some error occured");
             }
 
+        }
+
+        public static string GetKeyVaultSecretValue(string key)
+        {
+            string value = String.Empty;
+            KeyVaultDetails keyVaultDetails = new KeyVaultDetails();
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    string apiUrl = ConfigurationManager.AppSettings["APIURL"];
+
+                    HttpResponseMessage response = client.GetAsync($"{apiUrl}KeyVault/GetSecret?key={key}").Result;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        value=response.Content.ReadAsStringAsync().Result;
+                        keyVaultDetails= JsonConvert.DeserializeObject<KeyVaultDetails>(value);
+                        Console.WriteLine(value);
+                    }
+                    return keyVaultDetails.Value;
+                }
+            }
+            catch
+            {
+                return keyVaultDetails.Value;
+            }
         }
 
         //public static string GetAzureSecret(string secretName)

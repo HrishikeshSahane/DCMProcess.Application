@@ -95,15 +95,15 @@ namespace DCMProcess.AppService
             {
             try
             {
-                string zipPath = @"D:\Hrishikesh\IUBH\Thesis\PoC\Patient\5.42.357.8724.22501.922652.5648347.72768771.zip";
+                //string zipPath = @"D:\Hrishikesh\IUBH\Thesis\PoC\Patient\5.42.357.8724.22501.922652.5648347.72768771.zip";
                 MemoryStream memoryStream = new MemoryStream();
-                using (FileStream fileStream = new FileStream(zipPath, FileMode.Open, FileAccess.Read))
-                {
-                    fileStream.CopyTo(memoryStream);
+                //using (FileStream fileStream = new FileStream(zipPath, FileMode.Open, FileAccess.Read))
+                //{
+                //    fileStream.CopyTo(memoryStream);
 
-                }
-                //memoryStream =await blobObj.DownloadBlob(studyId);
-                memoryStream.Seek(0,SeekOrigin.Begin);
+                //}
+                memoryStream =await blobObj.DownloadBlob(studyId);
+                //memoryStream.Seek(0,SeekOrigin.Begin);
                 return File(memoryStream.ToArray(), "application/zip", "dicom_files.zip");
             }
             catch (Exception ex)

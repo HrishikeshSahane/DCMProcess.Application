@@ -36,17 +36,17 @@
                 <button  (click)="homePage()" type="submit" class="btn hovereffect" click style="border:groove;float:right;margin-right: 10px;color:white"><strong>Home</strong></button>
             </div>
             <div id="mrtopright" style="position: absolute;top:3px; right:3px">
-                <div style="color:gold">
+                <div style="color:aqua">
                     Patient Name: {{viewPort.patientName}}
                 </div>
 
-                <div id="sliceText" style="color:gold">
+                <div id="sliceText" style="color:aqua">
                     Image: {{(imageCount > 0)?viewPort.currentIndex+1:0}}/{{imageCount}}
                 </div>
-                <div style="color:gold">
+                <div style="color:aqua">
                     InstanceNumber: {{viewPort.instanceNumber}}
                 </div>
-                <div style="color:gold">
+                <div style="color:aqua">
                     WW/WC: {{viewPort.windowingValue}}
                 </div>
 

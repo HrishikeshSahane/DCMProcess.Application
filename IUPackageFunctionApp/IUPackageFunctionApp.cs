@@ -13,7 +13,8 @@ namespace IUPackageFunctionApp
         {
             Console.WriteLine( packageDetails.BlobURI);
             FunctionHelper functionHelper= new FunctionHelper();
-            await Task.Run(()=> functionHelper.ProcessQueueMessage(packageDetails));
+            ////await Task.Run(()=> functionHelper.ProcessQueueMessage(packageDetails));
+            functionHelper.ProcessQueueMessage(packageDetails);
         }
     }
 }

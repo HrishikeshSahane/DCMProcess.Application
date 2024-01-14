@@ -41,7 +41,7 @@ public partial class DbprojectContext : DbContext
 
             entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             entity.Property(e => e.DepartmentName)
-                .HasMaxLength(250)
+                .HasMaxLength(500)
                 .IsUnicode(false);
             entity.Property(e => e.InstitutionAddress)
                 .HasMaxLength(250)
@@ -118,15 +118,15 @@ public partial class DbprojectContext : DbContext
                 .HasMaxLength(10)
                 .IsUnicode(false);
             entity.Property(e => e.ImageType)
-                .HasMaxLength(100)
+                .HasMaxLength(500)
                 .IsUnicode(false);
             entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
             entity.Property(e => e.PatientId).HasColumnName("Patient_Id");
             entity.Property(e => e.PatientOrientation)
-                .HasMaxLength(100)
+                .HasMaxLength(500)
                 .IsUnicode(false);
             entity.Property(e => e.PatientPosition)
-                .HasMaxLength(100)
+                .HasMaxLength(500)
                 .IsUnicode(false);
             entity.Property(e => e.ScannedDate).HasColumnType("datetime");
             entity.Property(e => e.SeriesId)

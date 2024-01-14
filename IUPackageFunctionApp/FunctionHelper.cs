@@ -20,7 +20,7 @@ namespace IUPackageFunctionApp
     public class FunctionHelper
     {
         readonly Func<MemoryStream> getZipBlobFileStream;
-        public string APIBaseURL = System.Environment.GetEnvironmentVariable("APIBaseURL");
+        public string APIBaseURL = "https://localhost:7282/api/";
         HttpClient client;
         Dicom.DicomFile dicomFile;
 
@@ -50,7 +50,7 @@ namespace IUPackageFunctionApp
                 UpdateDequeueMessageTime(message);
                 BlobRequestOptions optionWithRetryPolicy = new BlobRequestOptions();
                 Uri blobUri = new Uri(message.BlobURI);
-                var storageConnectionString=System.Environment.GetEnvironmentVariable("StorageConnectionString");
+                var storageConnectionString= "DefaultEndpointsProtocol=https;AccountName=dcmprocesscontainer;AccountKey=ns9OQoQ1LooyBXHD6OYsWKLyjZL53HUoyhz5tw5X6xK5CIYq5Qu+wqD9OiOH15ddX5K77lxiuhgh+ASt64oB5Q==;EndpointSuffix=core.windows.net"; 
                 CloudStorageAccount storageAccount = CloudStorageAccount.Parse(storageConnectionString);
                 CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
                 CloudBlobContainer container = blobClient.GetContainerReference("dicomblob");
@@ -143,14 +143,14 @@ namespace IUPackageFunctionApp
                 {
                     patientName.Replace(' ', '^');
                 }
-                string birthYear= dicomDataset.GetSingleValue<string>(Dicom.DicomTag.PatientBirthTime).Substring(0,4);
-                string birthMonth= dicomDataset.GetSingleValue<string>(Dicom.DicomTag.PatientBirthTime).Substring(4,2);
-                string birthDay = dicomDataset.GetSingleValue<string>(Dicom.DicomTag.PatientBirthTime).Substring(6, 2);
+                string birthYear= dicomDataset.GetSingleValue<string>(Dicom.DicomTag.PatientBirthDate).Substring(0,4);
+                string birthMonth= dicomDataset.GetSingleValue<string>(Dicom.DicomTag.PatientBirthDate).Substring(4,2);
+                string birthDay = dicomDataset.GetSingleValue<string>(Dicom.DicomTag.PatientBirthDate).Substring(6, 2);
                 Patient patient = new Patient()
                 {
                     
                     FirstName = patientName.Split('^').ToList().FirstOrDefault(),
-                    LastName = patientName.Split('^').ToList().Skip(1).FirstOrDefault(),
+                    LastName = patientName.Split('^').ToList().Skip(1).FirstOrDefault()??String.Empty,
                     PatientId = dicomDataset.GetSingleValue<string>(Dicom.DicomTag.PatientID),
                     Gender = dicomDataset.GetSingleValue<string>(Dicom.DicomTag.PatientSex)??String.Empty,
                     DateOfBirth = new DateTime(Convert.ToInt32(birthYear), Convert.ToInt32(birthMonth), Convert.ToInt32(birthDay)),
@@ -220,8 +220,26 @@ namespace IUPackageFunctionApp
                 var imageSeriesId= dicomDataset.GetSingleValue<string>(Dicom.DicomTag.StudyInstanceUID);
                 var manufacturer = dicomDataset.GetSingleValue<string>(Dicom.DicomTag.Manufacturer);
                 var modelName = dicomDataset.GetSingleValue<string>(Dicom.DicomTag.ManufacturerModelName);
-                var operatorName=dicomDataset.GetSingleValue<string>(Dicom.DicomTag.OperatorsName);
-                var xRayTubeCurrent= dicomDataset.GetSingleValue<int>(Dicom.DicomTag.XRayTubeCurrent);
+                var operatorName = String.Empty;
+                try
+                {
+                    operatorName = dicomDataset.GetSingleValue<string>(Dicom.DicomTag.OperatorsName);
+                }
+                catch
+                {
+                    operatorName = String.Empty;
+                }
+                 
+                var xRayTubeCurrent = 0;
+                try
+                {
+                    xRayTubeCurrent = dicomDataset.GetSingleValue<int>(Dicom.DicomTag.XRayTubeCurrent);
+                }
+                catch
+                {
+                    xRayTubeCurrent = 0;
+                }
+                
                 var createdDate= DateTime.Now;
 
 
@@ -256,7 +274,16 @@ namespace IUPackageFunctionApp
             {
                 var dicomDataset = dicomFile.Dataset;
                 var institutionName = dicomDataset.GetSingleValue<string>(Dicom.DicomTag.InstitutionName);
-                var departmentName = dicomDataset.GetSingleValue<string>(Dicom.DicomTag.InstitutionalDepartmentName);
+                var departmentName = String.Empty;
+                try
+                {
+                    departmentName = dicomDataset.GetSingleValue<string>(Dicom.DicomTag.InstitutionalDepartmentName);
+                }
+                catch
+                {
+                    departmentName = String.Empty;   
+                }
+
                 var institutionAddress= dicomDataset.GetSingleValue<string>(Dicom.DicomTag.InstitutionAddress);
                 var imageSeriesId = dicomDataset.GetSingleValue<string>(Dicom.DicomTag.StudyInstanceUID);
                 var createdDate = DateTime.Now;
