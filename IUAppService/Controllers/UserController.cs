@@ -65,6 +65,7 @@ namespace DCMProcess.AppService
 
         [HttpGet]
         [Authorize]
+        [RequireHttps]
         [Route("Get")]
         public JsonResult Get()
         {

@@ -32,7 +32,6 @@ export class WebImageViewerComponent implements OnInit {
 
 
 
-  webbaseURL:string="http://localhost:4200"
   //Fa-ICONS
   faSun=faSun;
   faAdjust=faAdjust;
@@ -50,10 +49,10 @@ export class WebImageViewerComponent implements OnInit {
   faCircleArrowLeft=faCircleArrowLeft;
   faCircleArrowRight=faCircleArrowRight;
 
-  @Input() public enableViewerTools = false; // enable viewer tools
-  @Input() public enablePlayTools = false; // enable Play Clip tools
-  @Input() public downloadImagesURL = '' // download images URL
-  @Input() public maxImagesToLoad = 10; // limit for the automatic loading of study images
+  public enableViewerTools = true; // enable viewer tools
+  public enablePlayTools = true; // enable Play Clip tools
+  public downloadImagesURL = '' // download images URL
+  public maxImagesToLoad = 10; // limit for the automatic loading of study images
 
   public seriesList = []; // list of series on the images being displayed
   public currentSeriesIndex = 0;

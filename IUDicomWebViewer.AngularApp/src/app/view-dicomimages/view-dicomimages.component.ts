@@ -59,16 +59,19 @@ export class ViewDicomimagesComponent {
       // })
       //cornerstoneWADOImageLoader.wadouri.fileManager.purge();
       cornerstoneWADOImageLoader.wadouri.dataSetCacheManager.purge();
-
-      // loop thru the File list and build a list of wadouri imageIds (dicomfile:)
-      for (let i = 0; i < newfiles.length; i++) {
-        const dicomFile: File = newfiles[i];
-        const imageId = cornerstoneWADOImageLoader.wadouri.fileManager.add(dicomFile);
-        imageList.push(imageId);
-      }
-
+      newfiles=newfiles.slice(0,10);
+      
+        // loop thru the File list and build a list of wadouri imageIds (dicomfile:)
+        for (let i = 0; i < newfiles.length; i++)
+        {
+          
+          const dicomFile: File = newfiles[i];
+          const imageId = cornerstoneWADOImageLoader.wadouri.fileManager.add(dicomFile);
+          imageList.push(imageId);
+        }
+      
       this.viewPort.resetAllTools();
-
+      imageList=imageList.slice(0,10);
       // now load all Images, using their wadouri
       this.viewPort.loadStudyImages(imageList);
 
@@ -156,8 +159,9 @@ export class ViewDicomimagesComponent {
         const headers = new AxiosHeaders({
           'Authorization': `Bearer ${token}`
         });
-        const response = await axios.get("https://localhost:7282/api/Storage/GetDicomFiles?studyId="+studyId.toString(), { responseType: 'arraybuffer',headers:headers });
-      
+        //const response = await axios.get("https://localhost:7282/api/Storage/GetDicomFiles?studyId="+studyId.toString(), { responseType: 'arraybuffer',headers:headers });
+        const response = await axios.get("https://dcmprocessapiservice.azurewebsites.net/api/Storage/GetDicomFiles?studyId="+studyId.toString(), { responseType: 'arraybuffer',headers:headers });
+
 
         const zip = await JSZip.loadAsync(response.data);
   
@@ -171,12 +175,16 @@ export class ViewDicomimagesComponent {
             // Create a File from the Blob
             const blob = new Blob([fileContent], { type: fileType });
             const file = new File([blob], zipEntry.name, { type: blob.type });
+
             console.log(file.name)
-            
-            await newfiles.push(file);
+            if(newfiles.length<10){
+              await newfiles.push(file);
+              this.loadDICOMImages()
+            }
 
 
-            this.loadDICOMImages()
+
+
           }
         })
       }

@@ -111,6 +111,20 @@ namespace DCMProcess.ImageUploaderApp
                 Console.WriteLine($"Started Creating Queue message");
                 CreateQueueMessage(blobURI, queueSasURI,seriesId);
                 Console.WriteLine($"Queue message created successfully");
+
+
+                //Delete zip after transfer
+                string zipFilePath = Path.Combine(basePath, seriesId) + ".zip";
+                if (File.Exists(zipFilePath))
+                {
+                    File.Delete(zipFilePath);
+                    Console.WriteLine($"Zip file deleted: {zipFilePath}");
+                }
+                else
+                {
+                    Console.WriteLine($"Zip file does not exist: {zipFilePath}");
+                }
+
             }
             catch(Exception ex)
             {

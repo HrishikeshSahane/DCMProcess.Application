@@ -50,8 +50,7 @@ namespace IUPackageFunctionApp
                 UpdateDequeueMessageTime(message);
                 BlobRequestOptions optionWithRetryPolicy = new BlobRequestOptions();
                 Uri blobUri = new Uri(message.BlobURI);
-                var storageConnectionString= "DefaultEndpointsProtocol=https;AccountName=dcmprocesscontainer;AccountKey=ns9OQoQ1LooyBXHD6OYsWKLyjZL53HUoyhz5tw5X6xK5CIYq5Qu+wqD9OiOH15ddX5K77lxiuhgh+ASt64oB5Q==;EndpointSuffix=core.windows.net"; 
-                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(storageConnectionString);
+                var storageConnectionString = System.Environment.GetEnvironmentVariable("StorageConnectionString"); CloudStorageAccount storageAccount = CloudStorageAccount.Parse(storageConnectionString);
                 CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
                 CloudBlobContainer container = blobClient.GetContainerReference("dicomblob");
                 CloudBlockBlob blockBlob = container.GetBlockBlobReference($"{message.SeriesID}.zip");
@@ -66,17 +65,24 @@ namespace IUPackageFunctionApp
 
                     using (var zip=new ZipArchive(zipBlobFileStream))
                     {
-                        foreach(var fileFromZip in zip.Entries)
-                        {
+                        //foreach (var fileFromZip in zip.Entries.OrderByDescending(e=>e.LastWriteTime))
+                        //{
 
-                            var fileStream= fileFromZip.Open();
-                            fileName = fileFromZip.Name;
-                            CloudBlockBlob destinationblockBlob = container.GetBlockBlobReference(fileName);
-                            destinationblockBlob.Properties.ContentType = "application/dicom";
-                            await destinationblockBlob.UploadFromStreamAsync(fileStream);
-                            break;
+                        //    var fileStream = fileFromZip.Open();
+                        //    fileName = fileFromZip.Name;
+                        //    CloudBlockBlob destinationblockBlob = container.GetBlockBlobReference(fileName);
+                        //    destinationblockBlob.Properties.ContentType = "application/dicom";
+                        //    await destinationblockBlob.UploadFromStreamAsync(fileStream);
+                        //    break;
 
-                        }
+                        //}
+
+                        var fileFromZip = zip.Entries.OrderBy(e => e.Name).FirstOrDefault();
+                        var fileStream= fileFromZip.Open();
+                        fileName = fileFromZip.Name;
+                        CloudBlockBlob destinationblockBlob = container.GetBlockBlobReference(fileName);
+                        destinationblockBlob.Properties.ContentType = "application/dicom";
+                        await destinationblockBlob.UploadFromStreamAsync(fileStream);
                     }
 
                 }
