@@ -11,8 +11,8 @@ namespace DCMProcess.ImageUploaderApp
 
         public static void Main(string[] args)
         {
-            string storageconnectionString= "DefaultEndpointsProtocol=https;AccountName=dcmprocesscontainer;AccountKey=ns9OQoQ1LooyBXHD6OYsWKLyjZL53HUoyhz5tw5X6xK5CIYq5Qu+wqD9OiOH15ddX5K77lxiuhgh+ASt64oB5Q==;EndpointSuffix=core.windows.net";
-            string storageconnectionKey= "ns9OQoQ1LooyBXHD6OYsWKLyjZL53HUoyhz5tw5X6xK5CIYq5Qu+wqD9OiOH15ddX5K77lxiuhgh+ASt64oB5Q==";
+            string storageconnectionString= ImageUploader.GetKeyVaultSecretValue("DCMProcess-StorageConnectionString");
+            string storageconnectionKey= ImageUploader.GetKeyVaultSecretValue("DCMProcess-StorageConnectionKey");
             ImageUploader.ReadFiles(storageconnectionString, storageconnectionKey);
         }
 

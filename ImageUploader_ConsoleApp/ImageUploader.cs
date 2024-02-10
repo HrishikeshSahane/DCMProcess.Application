@@ -92,6 +92,7 @@ namespace DCMProcess.ImageUploaderApp
                 }
                 Console.WriteLine($"Zip Successfully created in {DateTime.Now.Subtract(startTime).TotalMilliseconds} milliseconds");
 
+                DateTime transferStartTime = DateTime.Now;
                 //Get Blob Token
                 Console.WriteLine($"Fetching Blob Token for transferring Zip to Blob");
                 var blobURI = GetBlobSASToken();
@@ -101,6 +102,9 @@ namespace DCMProcess.ImageUploaderApp
                 Console.WriteLine($"Started Transferring Zip to Blob");
                 TransferZip(blobURI,seriesId);
                 Console.WriteLine($"Started Transferred to Blob successfully");
+
+                Console.WriteLine($"Zip Successfully transferred in {DateTime.Now.Subtract(transferStartTime).TotalMilliseconds} milliseconds");
+
 
                 //Create Queue Token
                 Console.WriteLine($"Fetching Queue Token for creating message in Queue");
